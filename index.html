@@ -1,0 +1,2141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+  <title>Sky Dash — Free Browser Game</title>
+  <meta name="description" content="Play Sky Dash, a free original browser game. Dodge obstacles, collect stars and beat your high score.">
+  <meta name="keywords" content="free browser game, online game, HTML5 game, Sky Dash, arcade game">
+  <meta name="author" content="Your Name">
+
+
+  <!-- Replace with your real AdSense code after approval -->
+  <!--
+  <script async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=YOUR_ADSENSE_CLIENT_ID"
+    crossorigin="anonymous"></script>
+  -->
+
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+
+    :root {
+      --bg: #08111f;
+      --card: #101d31;
+      --card2: #152640;
+      --text: #f5f7fb;
+      --muted: #a9b6c9;
+      --primary: #5ee7ff;
+      --secondary: #8b7cff;
+      --danger: #ff647c;
+      --border: rgba(255,255,255,.1);
+    }
+
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(94,231,255,.12), transparent 30%),
+        radial-gradient(circle at 80% 20%, rgba(139,124,255,.12), transparent 30%),
+        var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+
+    button {
+      font: inherit;
+    }
+
+
+    /* HEADER */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      backdrop-filter: blur(15px);
+      background: rgba(8,17,31,.88);
+      border-bottom: 1px solid var(--border);
+    }
+
+
+    .nav {
+      max-width: 1150px;
+      margin: auto;
+      min-height: 70px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+
+    .logo {
+      font-size: 22px;
+      font-weight: 900;
+      letter-spacing: -.5px;
+      white-space: nowrap;
+    }
+
+
+    .logo span {
+      color: var(--primary);
+    }
+
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      list-style: none;
+    }
+
+
+    .nav-links button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 10px 12px;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+
+
+    .nav-links button:hover,
+    .nav-links button.active {
+      background: rgba(255,255,255,.07);
+      color: white;
+    }
+
+
+    .menu {
+      display: none;
+      border: 1px solid var(--border);
+      background: var(--card);
+      color: white;
+      padding: 9px 12px;
+      border-radius: 9px;
+      cursor: pointer;
+    }
+
+
+    /* MAIN */
+    main {
+      max-width: 1150px;
+      margin: auto;
+      padding: 30px 20px 70px;
+    }
+
+
+    .page {
+      display: none;
+      animation: fade .25s ease;
+    }
+
+
+    .page.active {
+      display: block;
+    }
+
+
+    @keyframes fade {
+      from { opacity: .2; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    /* HERO */
+    .hero {
+      min-height: 530px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 50px 15px;
+    }
+
+
+    .hero-content {
+      max-width: 800px;
+    }
+
+
+    .badge {
+      display: inline-block;
+      padding: 8px 13px;
+      border-radius: 999px;
+      background: rgba(94,231,255,.1);
+      color: var(--primary);
+      border: 1px solid rgba(94,231,255,.2);
+      font-size: 13px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+
+    h1 {
+      font-size: clamp(42px, 8vw, 78px);
+      line-height: .98;
+      margin-bottom: 22px;
+      letter-spacing: -3px;
+    }
+
+
+    h1 span {
+      color: var(--primary);
+    }
+
+
+    .hero p {
+      max-width: 650px;
+      margin: auto;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+
+    .buttons {
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+
+    .btn {
+      border: 0;
+      padding: 13px 21px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 800;
+      transition: .2s;
+    }
+
+
+    .btn:hover {
+      transform: translateY(-2px);
+    }
+
+
+    .primary {
+      background: linear-gradient(135deg, var(--primary), #76a7ff);
+      color: #06101d;
+    }
+
+
+    .secondary {
+      background: var(--card);
+      border: 1px solid var(--border);
+      color: white;
+    }
+
+
+    /* ADS */
+    .ad-box {
+      width: 100%;
+      min-height: 100px;
+      margin: 25px 0;
+      border: 1px dashed rgba(255,255,255,.16);
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      color: #738196;
+      font-size: 12px;
+      background: rgba(255,255,255,.015);
+    }
+
+
+    /* CARDS */
+    .section-title {
+      text-align: center;
+      margin: 45px 0 25px;
+    }
+
+
+    .section-title h2 {
+      font-size: 34px;
+      margin-bottom: 8px;
+    }
+
+
+    .section-title p {
+      color: var(--muted);
+    }
+
+
+    .features {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+
+    .card {
+      background: linear-gradient(145deg, var(--card), rgba(16,29,49,.7));
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 25px;
+    }
+
+
+    .card-icon {
+      font-size: 35px;
+      margin-bottom: 14px;
+    }
+
+
+    .card h3 {
+      margin-bottom: 9px;
+    }
+
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+
+    /* GAME */
+    .game-wrap {
+      max-width: 850px;
+      margin: 20px auto;
+    }
+
+
+    .game-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+
+    .score-box {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 10px 16px;
+      border-radius: 11px;
+    }
+
+
+    .score-box small {
+      color: var(--muted);
+      display: block;
+      font-size: 11px;
+    }
+
+
+    .score-box strong {
+      font-size: 21px;
+    }
+
+
+    #gameCanvas {
+      width: 100%;
+      display: block;
+      background: #071221;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      touch-action: none;
+    }
+
+
+    .game-controls {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 15px;
+      flex-wrap: wrap;
+    }
+
+
+    .game-info {
+      text-align: center;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+
+
+    /* ARTICLE */
+    .article {
+      max-width: 850px;
+      margin: auto;
+    }
+
+
+    .article h1 {
+      font-size: 45px;
+      letter-spacing: -1px;
+    }
+
+
+    .article h2 {
+      margin: 30px 0 10px;
+    }
+
+
+    .article p,
+    .article li {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+
+    .article ul {
+      padding-left: 25px;
+      margin-top: 10px;
+    }
+
+
+    /* CONTACT */
+    form {
+      max-width: 650px;
+      margin: auto;
+      display: grid;
+      gap: 15px;
+    }
+
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 14px;
+      background: var(--card);
+      color: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      outline: none;
+    }
+
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--primary);
+    }
+
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 30px 20px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+
+    .footer-links {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-bottom: 15px;
+    }
+
+
+    .footer-links button {
+      background: none;
+      border: 0;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+
+    .footer-links button:hover {
+      color: white;
+    }
+
+
+    /* MOBILE */
+    @media (max-width: 760px) {
+      .nav {
+        min-height: 62px;
+      }
+
+
+      .menu {
+        display: block;
+      }
+
+
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 62px;
+        left: 0;
+        right: 0;
+        padding: 10px 15px 15px;
+        background: #091424;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+      }
+
+
+      .nav-links.open {
+        display: flex;
+      }
+
+
+      .nav-links button {
+        width: 100%;
+        text-align: left;
+      }
+
+
+      .features {
+        grid-template-columns: 1fr;
+      }
+
+
+      h1 {
+        letter-spacing: -2px;
+      }
+
+
+      .hero {
+        min-height: 480px;
+      }
+
+
+      main {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+
+<header>
+  <nav class="nav">
+    <button class="logo" onclick="showPage('home')" style="background:none;border:0;color:white;cursor:pointer;">
+      SKY<span>DASH</span>
+    </button>
+
+
+    <button class="menu" onclick="toggleMenu()">☰</button>
+
+
+    <ul class="nav-links" id="navLinks">
+      <li><button onclick="showPage('home')">Home</button></li>
+      <li><button onclick="showPage('game')">Play Game</button></li>
+      <li><button onclick="showPage('how')">How to Play</button></li>
+      <li><button onclick="showPage('about')">About</button></li>
+      <li><button onclick="showPage('contact')">Contact</button></li>
+    </ul>
+  </nav>
+</header>
+
+
+<main>
+
+
+  <!-- HOME -->
+  <section id="home" class="page active">
+
+
+    <div class="hero">
+      <div class="hero-content">
+        <div class="badge">FREE BROWSER GAME • NO DOWNLOAD</div>
+
+
+        <h1>Fly. Dodge.<br><span>Beat Your Score.</span></h1>
+
+
+        <p>
+          Welcome to Sky Dash — a simple, fast and original arcade game
+          that you can play directly in your browser.
+        </p>
+
+
+        <div class="buttons">
+          <button class="btn primary" onclick="showPage('game')">
+            ▶ Play Now
+          </button>
+
+
+          <button class="btn secondary" onclick="showPage('how')">
+            How to Play
+          </button>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="ad-box">
+      Advertisement
+    </div>
+
+
+    <div class="section-title">
+      <h2>Why Play Sky Dash?</h2>
+      <p>Easy to start, challenging to master.</p>
+    </div>
+
+
+    <div class="features">
+      <div class="card">
+        <div class="card-icon">🎮</div>
+        <h3>Instant Gameplay</h3>
+        <p>
+          No installation is required. Open the page and start playing.
+        </p>
+      </div>
+
+
+      <div class="card">
+        <div class="card-icon">🏆</div>
+        <h3>Beat Your Record</h3>
+        <p>
+          Your best score is saved locally in your browser.
+        </p>
+      </div>
+
+
+      <div class="card">
+        <div class="card-icon">📱</div>
+        <h3>Mobile Friendly</h3>
+        <p>
+          Play using your keyboard or touch controls on mobile devices.
+        </p>
+      </div>
+    </div>
+
+
+  </section>
+
+
+
+
+  <!-- GAME -->
+  <section id="game" class="page">
+
+
+    <div class="section-title">
+      <h2>Sky Dash</h2>
+      <p>Dodge the obstacles and collect stars.</p>
+    </div>
+
+
+    <div class="game-wrap">
+
+
+      <div class="game-top">
+        <div class="score-box">
+          <small>SCORE</small>
+          <strong id="score">0</strong>
+        </div>
+
+
+        <div class="score-box">
+          <small>BEST</small>
+          <strong id="best">0</strong>
+        </div>
+      </div>
+
+
+      <canvas id="gameCanvas" width="800" height="450"></canvas>
+
+
+      <div class="game-controls">
+        <button class="btn primary" id="startBtn" onclick="startGame()">
+          ▶ Start Game
+        </button>
+
+
+        <button class="btn secondary" onclick="resetGame()">
+          ↻ Reset
+        </button>
+      </div>
+
+
+      <p class="game-info">
+        Desktop: Space / ↑ to fly • Mobile: Tap the game
+      </p>
+
+
+    </div>
+
+
+    <div class="ad-box">
+      Advertisement
+    </div>
+
+
+  </section>
+
+
+
+
+  <!-- HOW TO PLAY -->
+  <section id="how" class="page">
+
+
+    <div class="article">
+      <h1>How to Play</h1>
+
+
+      <div class="ad-box">
+        Advertisement
+      </div>
+
+
+      <h2>🎮 Controls</h2>
+      <p>
+        On desktop, press Space or the Up Arrow to make your character fly.
+        On mobile, tap anywhere on the game area.
+      </p>
+
+
+      <h2>⭐ Collect Stars</h2>
+      <p>
+        Stars increase your score. Try to collect as many as possible
+        while avoiding obstacles.
+      </p>
+
+
+      <h2>🚧 Avoid Obstacles</h2>
+      <p>
+        Hitting an obstacle ends the current run.
+        You can restart the game and try to beat your previous record.
+      </p>
+
+
+      <h2>🏆 High Score</h2>
+      <p>
+        Sky Dash stores your best score locally in your browser.
+        Clearing browser storage may remove your saved score.
+      </p>
+
+
+      <h2>Tips</h2>
+      <ul>
+        <li>Use short taps instead of holding the button continuously.</li>
+        <li>Watch the upcoming obstacles carefully.</li>
+        <li>Do not focus only on the stars; staying alive is more important.</li>
+      </ul>
+    </div>
+
+
+  </section>
+
+
+
+
+  <!-- ABOUT -->
+  <section id="about" class="page">
+
+
+    <div class="article">
+      <h1>About Sky Dash</h1>
+
+
+      <p>
+        Sky Dash is a lightweight browser arcade game created for casual
+        entertainment. The game is designed to work directly inside modern
+        web browsers without requiring a download or installation.
+      </p>
+
+
+      <h2>Our Goal</h2>
+
+
+      <p>
+        We want to create simple, enjoyable web experiences that are easy
+        to access on phones, tablets and computers.
+      </p>
+
+
+      <h2>Original Content</h2>
+
+
+      <p>
+        The game mechanics, interface and website structure are created
+        specifically for this website.
+      </p>
+
+
+      <h2>Technology</h2>
+
+
+      <p>
+        Sky Dash uses standard HTML, CSS and JavaScript. No external game
+        engine is required.
+      </p>
+
+
+      <div class="ad-box">
+        Advertisement
+      </div>
+    </div>
+
+
+  </section>
+
+
+
+
+  <!-- PRIVACY -->
+  <section id="privacy" class="page">
+
+
+    <div class="article">
+      <h1>Privacy Policy</h1>
+
+
+      <p>
+        Your privacy is important to us. This page explains the general
+        information practices used by this website.
+      </p>
+
+
+      <h2>Information We Collect</h2>
+
+
+      <p>
+        The basic game can be played without creating an account.
+        Game scores may be stored locally in your browser.
+      </p>
+
+
+      <h2>Cookies</h2>
+
+
+      <p>
+        This website may use cookies or similar technologies for functionality,
+        analytics and advertising where applicable.
+      </p>
+
+
+      <h2>Advertising</h2>
+
+
+      <p>
+        If advertising services such as Google AdSense are enabled,
+        advertising providers may use cookies or similar technologies
+        according to their own policies.
+      </p>
+
+
+      <h2>Third-Party Services</h2>
+
+
+      <p>
+        External services may have their own privacy policies and terms.
+        Please review those policies when applicable.
+      </p>
+
+
+      <h2>Contact</h2>
+
+
+      <p>
+        If you have questions about this Privacy Policy, please contact us
+        using the Contact page.
+      </p>
+    </div>
+
+
+  </section>
+
+
+
+
+  <!-- TERMS -->
+  <section id="terms" class="page">
+
+
+    <div class="article">
+      <h1>Terms of Use</h1>
+
+
+      <h2>Website Use</h2>
+
+
+      <p>
+        Sky Dash is provided for entertainment purposes. You agree to use
+        the website responsibly and not attempt to disrupt or damage it.
+      </p>
+
+
+      <h2>Game</h2>
+
+
+      <p>
+        Game scores are provided for entertainment. We do not guarantee that
+        saved scores will remain available after browser or device changes.
+      </p>
+
+
+      <h2>Content</h2>
+
+
+      <p>
+        Website content should not be copied or republished without permission
+        where applicable.
+      </p>
+
+
+      <h2>Changes</h2>
+
+
+      <p>
+        We may update the website, game or these terms from time to time.
+      </p>
+    </div>
+
+
+  </section>
+
+
+
+
+  <!-- CONTACT -->
+  <section id="contact" class="page">
+
+
+    <div class="section-title">
+      <h2>Contact Us</h2>
+      <p>Have feedback or found a problem?</p>
+    </div>
+
+
+    <form onsubmit="sendMessage(event)">
+      <input type="text" id="name" placeholder="Your name" required>
+
+
+      <input type="email" id="email" placeholder="Your email" required>
+
+
+      <textarea id="message" placeholder="Your message" required></textarea>
+
+
+      <button class="btn primary" type="submit">
+        Send Message
+      </button>
+
+
+      <p id="formMessage" style="text-align:center;color:#5ee7ff;"></p>
+    </form>
+
+
+  </section>
+
+
+</main>
+
+
+
+
+<footer>
+  <div class="footer-links">
+    <button onclick="showPage('home')">Home</button>
+    <button onclick="showPage('game')">Game</button>
+    <button onclick="showPage('about')">About</button>
+    <button onclick="showPage('privacy')">Privacy Policy</button>
+    <button onclick="showPage('terms')">Terms</button>
+    <button onclick="showPage('contact')">Contact</button>
+  </div>
+
+
+  <p>© <span id="year"></span> Sky Dash. All rights reserved.</p>
+</footer>
+
+
+
+
+<script>
+  /* =========================
+     PAGE NAVIGATION
+  ========================= */
+
+
+  const pages = document.querySelectorAll(".page");
+  const navLinks = document.getElementById("navLinks");
+
+
+  function showPage(pageName) {
+
+
+    pages.forEach(page => {
+      page.classList.remove("active");
+    });
+
+
+    const selected = document.getElementById(pageName);
+
+
+    if (selected) {
+      selected.classList.add("active");
+    }
+
+
+    navLinks.classList.remove("open");
+
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
+
+
+    history.replaceState(null, "", "#" + pageName);
+  }
+
+
+  function toggleMenu() {
+    navLinks.classList.toggle("open");
+  }
+
+
+  window.addEventListener("load", () => {
+
+
+    const hash = location.hash.replace("#", "");
+
+
+    if (hash && document.getElementById(hash)) {
+      showPage(hash);
+    }
+
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+
+    updateBest();
+  });
+
+
+
+
+  /* =========================
+     CONTACT FORM
+  ========================= */
+
+
+  function sendMessage(event) {
+
+
+    event.preventDefault();
+
+
+    document.getElementById("formMessage").textContent =
+      "Thanks! Your message form is ready to connect to your email service.";
+
+
+    event.target.reset();
+  }
+
+
+
+
+  /* =========================
+     GAME
+  ========================= */
+
+
+  const canvas = document.getElementById("gameCanvas");
+  const ctx = canvas.getContext("2d");
+
+
+  let gameRunning = false;
+  let animationId = null;
+
+
+  let score = 0;
+
+
+  let bestScore =
+    Number(localStorage.getItem("skyDashBest")) || 0;
+
+
+  let player;
+  let obstacles;
+  let stars;
+  let particles;
+
+
+  let lastTime = 0;
+  let obstacleTimer = 0;
+  let starTimer = 0;
+
+
+  const gravity = 0.45;
+  const jumpPower = -8.5;
+
+
+  function updateBest() {
+    document.getElementById("best").textContent = bestScore;
+  }
+
+
+  function resetGame() {
+
+
+    cancelAnimationFrame(animationId);
+
+
+    gameRunning = false;
+
+
+    score = 0;
+
+
+    player = {
+      x: 110,
+      y: 210,
+      width: 34,
+      height: 28,
+      velocity: 0,
+      rotation: 0
+    };
+
+
+    obstacles = [];
+    stars = [];
+    particles = [];
+
+
+    obstacleTimer = 0;
+    starTimer = 0;
+
+
+    document.getElementById("score").textContent = "0";
+    document.getElementById("startBtn").textContent = "▶ Start Game";
+
+
+    draw();
+  }
+
+
+
+
+  function startGame() {
+
+
+    if (gameRunning) return;
+
+
+    resetGame();
+
+
+    gameRunning = true;
+
+
+    document.getElementById("startBtn").textContent = "Playing...";
+
+
+    lastTime = performance.now();
+
+
+    animationId = requestAnimationFrame(gameLoop);
+  }
+
+
+
+
+  function flap() {
+
+
+    if (!gameRunning) {
+      startGame();
+      return;
+    }
+
+
+    player.velocity = jumpPower;
+
+
+    createParticles(
+      player.x,
+      player.y + player.height,
+      5
+    );
+  }
+
+
+
+
+  function gameLoop(time) {
+
+
+    if (!gameRunning) return;
+
+
+    const delta = Math.min(
+      (time - lastTime) / 16.67,
+      2
+    );
+
+
+    lastTime = time;
+
+
+    update(delta);
+    draw();
+
+
+    animationId = requestAnimationFrame(gameLoop);
+  }
+
+
+
+
+  function update(dt) {
+
+
+    /* Player physics */
+
+
+    player.velocity += gravity * dt;
+
+
+    player.y += player.velocity * dt;
+
+
+    player.rotation =
+      Math.min(Math.max(player.velocity * .055, -.35), .7);
+
+
+
+
+    /* Screen collision */
+
+
+    if (
+      player.y < 0 ||
+      player.y + player.height > canvas.height
+    ) {
+      endGame();
+      return;
+    }
+
+
+
+
+    /* Difficulty */
+
+
+    const speed =
+      3.5 + Math.min(score / 150, 3);
+
+
+
+
+    /* Obstacles */
+
+
+    obstacleTimer += dt;
+
+
+    if (obstacleTimer > 85) {
+
+
+      obstacleTimer = 0;
+
+
+      const gap = 145;
+
+
+      const minTop = 45;
+      const maxTop =
+        canvas.height - gap - 45;
+
+
+      const topHeight =
+        minTop +
+        Math.random() *
+        (maxTop - minTop);
+
+
+      obstacles.push({
+        x: canvas.width + 30,
+        width: 58,
+        top: topHeight,
+        gap: gap,
+        passed: false
+      });
+    }
+
+
+
+
+    obstacles.forEach(obstacle => {
+
+
+      obstacle.x -= speed * dt;
+
+
+      if (
+        !obstacle.passed &&
+        obstacle.x + obstacle.width < player.x
+      ) {
+
+
+        obstacle.passed = true;
+
+
+        score++;
+
+
+        document.getElementById("score").textContent =
+          score;
+      }
+
+
+    });
+
+
+
+
+    obstacles =
+      obstacles.filter(
+        o => o.x + o.width > -20
+      );
+
+
+
+
+    /* Stars */
+
+
+    starTimer += dt;
+
+
+    if (starTimer > 70) {
+
+
+      starTimer = 0;
+
+
+      stars.push({
+        x: canvas.width + 30,
+        y: 70 + Math.random() * (canvas.height - 140),
+        radius: 9,
+        collected: false
+      });
+    }
+
+
+
+
+    stars.forEach(star => {
+
+
+      star.x -= speed * dt;
+
+
+      const dx =
+        star.x -
+        (player.x + player.width / 2);
+
+
+      const dy =
+        star.y -
+        (player.y + player.height / 2);
+
+
+      const distance =
+        Math.sqrt(dx * dx + dy * dy);
+
+
+      if (
+        distance <
+        star.radius + 18 &&
+        !star.collected
+      ) {
+
+
+        star.collected = true;
+
+
+        score += 3;
+
+
+        document.getElementById("score").textContent =
+          score;
+
+
+        createParticles(
+          star.x,
+          star.y,
+          10
+        );
+      }
+    });
+
+
+
+
+    stars =
+      stars.filter(
+        s => s.x > -20 && !s.collected
+      );
+
+
+
+
+    /* Collision */
+
+
+    for (const obstacle of obstacles) {
+
+
+      const hitTop =
+        player.x + player.width > obstacle.x &&
+        player.x < obstacle.x + obstacle.width &&
+        player.y < obstacle.top;
+
+
+      const bottomY =
+        obstacle.top + obstacle.gap;
+
+
+      const hitBottom =
+        player.x + player.width > obstacle.x &&
+        player.x < obstacle.x + obstacle.width &&
+        player.y + player.height > bottomY;
+
+
+      if (hitTop || hitBottom) {
+        endGame();
+        return;
+      }
+    }
+
+
+
+
+    /* Particles */
+
+
+    particles.forEach(p => {
+
+
+      p.x += p.vx * dt;
+      p.y += p.vy * dt;
+
+
+      p.life -= dt;
+
+
+      p.vy += .08 * dt;
+
+
+    });
+
+
+    particles =
+      particles.filter(p => p.life > 0);
+  }
+
+
+
+
+  function endGame() {
+
+
+    gameRunning = false;
+
+
+    cancelAnimationFrame(animationId);
+
+
+    if (score > bestScore) {
+
+
+      bestScore = score;
+
+
+      localStorage.setItem(
+        "skyDashBest",
+        bestScore
+      );
+    }
+
+
+    updateBest();
+
+
+    document.getElementById("startBtn").textContent =
+      "▶ Play Again";
+
+
+    draw();
+
+
+    setTimeout(() => {
+
+
+      alert(
+        "Game Over!\n\nScore: " +
+        score +
+        "\nBest: " +
+        bestScore
+      );
+
+
+    }, 100);
+  }
+
+
+
+
+  /* =========================
+     DRAWING
+  ========================= */
+
+
+  function draw() {
+
+
+    if (!player) {
+
+
+      player = {
+        x: 110,
+        y: 210,
+        width: 34,
+        height: 28,
+        velocity: 0,
+        rotation: 0
+      };
+
+
+      obstacles = [];
+      stars = [];
+      particles = [];
+    }
+
+
+
+
+    /* Sky */
+
+
+    const gradient =
+      ctx.createLinearGradient(
+        0, 0,
+        0, canvas.height
+      );
+
+
+    gradient.addColorStop(0, "#0b2341");
+    gradient.addColorStop(1, "#07101e");
+
+
+    ctx.fillStyle = gradient;
+
+
+    ctx.fillRect(
+      0, 0,
+      canvas.width,
+      canvas.height
+    );
+
+
+
+
+    /* Background stars */
+
+
+    for (let i = 0; i < 35; i++) {
+
+
+      const x =
+        (i * 137) %
+        canvas.width;
+
+
+      const y =
+        (i * 71) %
+        canvas.height;
+
+
+      ctx.fillStyle =
+        "rgba(255,255,255,.25)";
+
+
+      ctx.beginPath();
+
+
+      ctx.arc(
+        x,
+        y,
+        1.5,
+        0,
+        Math.PI * 2
+      );
+
+
+      ctx.fill();
+    }
+
+
+
+
+    /* Moon */
+
+
+    ctx.fillStyle = "#e9f7ff";
+
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+      680,
+      75,
+      34,
+      0,
+      Math.PI * 2
+    );
+
+
+    ctx.fill();
+
+
+
+
+    ctx.fillStyle = "#0b2341";
+
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+      694,
+      65,
+      34,
+      0,
+      Math.PI * 2
+    );
+
+
+    ctx.fill();
+
+
+
+
+    /* Obstacles */
+
+
+    obstacles.forEach(o => {
+
+
+      const gradient =
+        ctx.createLinearGradient(
+          o.x,
+          0,
+          o.x + o.width,
+          0
+        );
+
+
+      gradient.addColorStop(0, "#7c6cff");
+      gradient.addColorStop(1, "#4c3ac7");
+
+
+      ctx.fillStyle = gradient;
+
+
+      ctx.fillRect(
+        o.x,
+        0,
+        o.width,
+        o.top
+      );
+
+
+      ctx.fillRect(
+        o.x,
+        o.top + o.gap,
+        o.width,
+        canvas.height
+      );
+
+
+      ctx.fillStyle =
+        "rgba(255,255,255,.12)";
+
+
+      ctx.fillRect(
+        o.x + 7,
+        0,
+        5,
+        o.top
+      );
+
+
+      ctx.fillRect(
+        o.x + 7,
+        o.top + o.gap,
+        5,
+        canvas.height
+      );
+    });
+
+
+
+
+    /* Stars */
+
+
+    stars.forEach(s => {
+
+
+      ctx.save();
+
+
+      ctx.translate(s.x, s.y);
+
+
+      ctx.rotate(
+        performance.now() / 500
+      );
+
+
+      ctx.fillStyle = "#ffe66d";
+
+
+      drawStar(
+        0,
+        0,
+        5,
+        s.radius,
+        s.radius / 2
+      );
+
+
+      ctx.restore();
+    });
+
+
+
+
+    /* Player */
+
+
+    ctx.save();
+
+
+    ctx.translate(
+      player.x + player.width / 2,
+      player.y + player.height / 2
+    );
+
+
+    ctx.rotate(player.rotation);
+
+
+    /* body */
+
+
+    ctx.fillStyle = "#5ee7ff";
+
+
+    roundRect(
+      -17,
+      -14,
+      34,
+      28,
+      9
+    );
+
+
+    ctx.fill();
+
+
+    /* wing */
+
+
+    ctx.fillStyle = "#8b7cff";
+
+
+    roundRect(
+      -11,
+      4,
+      20,
+      10,
+      5
+    );
+
+
+    ctx.fill();
+
+
+    /* window */
+
+
+    ctx.fillStyle = "#08111f";
+
+
+    ctx.beginPath();
+
+
+    ctx.arc(
+      8,
+      -3,
+      6,
+      0,
+      Math.PI * 2
+    );
+
+
+    ctx.fill();
+
+
+    ctx.restore();
+
+
+
+
+    /* particles */
+
+
+    particles.forEach(p => {
+
+
+      ctx.globalAlpha =
+        Math.max(p.life / 20, 0);
+
+
+      ctx.fillStyle = "#5ee7ff";
+
+
+      ctx.beginPath();
+
+
+      ctx.arc(
+        p.x,
+        p.y,
+        p.size,
+        0,
+        Math.PI * 2
+      );
+
+
+      ctx.fill();
+
+
+      ctx.globalAlpha = 1;
+    });
+
+
+
+
+    /* Start message */
+
+
+    if (!gameRunning && score === 0) {
+
+
+      ctx.fillStyle =
+        "rgba(0,0,0,.35)";
+
+
+      ctx.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+
+      ctx.textAlign = "center";
+
+
+      ctx.fillStyle = "white";
+
+
+      ctx.font = "bold 32px Arial";
+
+
+      ctx.fillText(
+        "SKY DASH",
+        canvas.width / 2,
+        190
+      );
+
+
+      ctx.font = "18px Arial";
+
+
+      ctx.fillStyle =
+        "rgba(255,255,255,.75)";
+
+
+      ctx.fillText(
+        "Press Start or tap the game",
+        canvas.width / 2,
+        225
+      );
+    }
+  }
+
+
+
+
+  function roundRect(
+    x,
+    y,
+    width,
+    height,
+    radius
+  ) {
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(x + radius, y);
+
+
+    ctx.arcTo(
+      x + width,
+      y,
+      x + width,
+      y + height,
+      radius
+    );
+
+
+    ctx.arcTo(
+      x + width,
+      y + height,
+      x,
+      y + height,
+      radius
+    );
+
+
+    ctx.arcTo(
+      x,
+      y + height,
+      x,
+      y,
+      radius
+    );
+
+
+    ctx.arcTo(
+      x,
+      y,
+      x + width,
+      y,
+      radius
+    );
+
+
+    ctx.closePath();
+  }
+
+
+
+
+  function drawStar(
+    cx,
+    cy,
+    spikes,
+    outerRadius,
+    innerRadius
+  ) {
+
+
+    let rotation =
+      Math.PI / 2 * 3;
+
+
+    let x = cx;
+    let y = cy;
+
+
+    const step =
+      Math.PI / spikes;
+
+
+    ctx.beginPath();
+
+
+    ctx.moveTo(
+      cx,
+      cy - outerRadius
+    );
+
+
+    for (
+      let i = 0;
+      i < spikes;
+      i++
+    ) {
+
+
+      x =
+        cx +
+        Math.cos(rotation) *
+        outerRadius;
+
+
+      y =
+        cy +
+        Math.sin(rotation) *
+        outerRadius;
+
+
+      ctx.lineTo(x, y);
+
+
+      rotation += step;
+
+
+      x =
+        cx +
+        Math.cos(rotation) *
+        innerRadius;
+
+
+      y =
+        cy +
+        Math.sin(rotation) *
+        innerRadius;
+
+
+      ctx.lineTo(x, y);
+
+
+      rotation += step;
+    }
+
+
+    ctx.lineTo(
+      cx,
+      cy - outerRadius
+    );
+
+
+    ctx.closePath();
+
+
+    ctx.fill();
+  }
+
+
+
+
+  function createParticles(
+    x,
+    y,
+    amount
+  ) {
+
+
+    for (
+      let i = 0;
+      i < amount;
+      i++
+    ) {
+
+
+      particles.push({
+        x: x,
+        y: y,
+        vx: (Math.random() - .5) * 4,
+        vy: (Math.random() - .5) * 4,
+        size: 2 + Math.random() * 3,
+        life: 20 + Math.random() * 20
+      });
+    }
+  }
+
+
+
+
+  /* =========================
+     INPUT
+  ========================= */
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+
+      if (
+        event.code === "Space" ||
+        event.code === "ArrowUp"
+      ) {
+
+
+        event.preventDefault();
+
+
+        if (
+          document
+            .getElementById("game")
+            .classList.contains("active")
+        ) {
+          flap();
+        }
+      }
+    }
+  );
+
+
+
+
+  canvas.addEventListener(
+    "pointerdown",
+    event => {
+
+
+      event.preventDefault();
+
+
+      flap();
+    }
+  );
+
+
+
+
+  /* Initial game */
+
+
+  resetGame();
+
+
+</script>
+
+
+</body>
+</html>
